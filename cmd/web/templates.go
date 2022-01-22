@@ -5,11 +5,13 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/sguessou/snippetbox/pkg/forms"
 	"github.com/sguessou/snippetbox/pkg/models"
 )
 
 type templateData struct {
 	CurrentYear int
+	Form        *forms.Form
 	Snippet     *models.Snippet
 	Snippets    []*models.Snippet
 }
