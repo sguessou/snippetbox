@@ -21,8 +21,9 @@
     </div>
     <div>
       {{if .IsAuthenticated}}
-         <form action='/user/logout' method='POST'>
-           <button>Logout</button>
+        <form action='/user/logout' method='POST'>
+          <input name="csrf_token" type="hidden" value="{{.CSRFToken}}"/>
+          <button>Logout</button>
          </form>
       {{else}}
          <a href="/user/signup">Signup</a>
