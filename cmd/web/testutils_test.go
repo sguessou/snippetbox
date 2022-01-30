@@ -1,11 +1,13 @@
 package main
 
 import (
+	"html"
 	"io"
 	"log"
 	"net/http"
 	"net/http/cookiejar"
 	"net/http/httptest"
+	"regexp"
 	"testing"
 	"time"
 
@@ -31,6 +33,17 @@ func newTestApplication(t *testing.T) *application {
 		templateCache: templateCache,
 		users:         &mock.UserModel{},
 	}
+}
+
+var csrfTokenRX = regexp.MustCompile(`<input name="csrf_token" type="hidden" value="(.+)"/>`)
+
+func extractCSRFToken(t *testing.T, body []byte) string {
+	matches := csrfTokenRX.FindSubmatch(body)
+	if len(matches) < 2 {
+		t.Fatal("no csrf token found in body")
+	}
+
+	return html.UnescapeString(string(matches[1]))
 }
 
 type testServer struct {
