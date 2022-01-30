@@ -43,3 +43,13 @@ GRANT SELECT, INSERT, UPDATE ON snippetbox.* TO 'web'@'localhost';
 
 -- Important: Make sure to swap 'pass' with a password of your own choosing.
 ALTER USER 'web'@'localhost' IDENTIFIED BY 'pass';
+
+-- Create test snippet database
+CREATE DATABASE test_snippetbox CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- create test user
+CREATE USER 'test_web'@'localhost';
+GRANT CREATE, DROP, ALTER, INDEX, SELECT, INSERT, UPDATE, DELETE ON test_snippetbox.* TO 'test_web'@'localhost';
+ALTER USER 'test_web'@'localhost' IDENTIFIED BY 'pass';
+
+-- connect to MySQL: mysql -D snippetbox -u web -p
