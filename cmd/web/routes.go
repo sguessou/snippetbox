@@ -27,6 +27,7 @@ func (app *application) routes() http.Handler {
 
 	mux.Get("/about", dynamicMiddleware.ThenFunc(app.about))
 
+	mux.Get("/user/profile", dynamicMiddleware.ThenFunc(app.userProfile))
 	mux.Get("/ping", http.HandlerFunc(ping))
 
 	fileServer := http.FileServer(http.Dir("./ui/static/"))

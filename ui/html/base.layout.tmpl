@@ -22,10 +22,11 @@
     </div>
     <div>
       {{if .IsAuthenticated}}
+        <a href="/user/profile">Profile</a>
         <form action='/user/logout' method='POST'>
           <input name="csrf_token" type="hidden" value="{{.CSRFToken}}"/>
           <button>Logout</button>
-         </form>
+        </form>
       {{else}}
          <a href="/user/signup">Signup</a>
          <a href="/user/login">Login</a>
