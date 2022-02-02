@@ -174,3 +174,30 @@ func (app *application) userProfile(w http.ResponseWriter, r *http.Request) {
 
 	app.render(w, r, "profile.page.tmpl", &templateData{User: user})
 }
+
+func (app *application) changePasswordForm(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, "password.page.tmpl", &templateData{Form: forms.New(nil)})
+}
+
+func (app *application) changePassword(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	form := forms.New(r.PostForm)
+	form.Required("currentPassword", "newPassword", "newPasswordConfirmation")
+	form.MinLength("newPassword", 10)
+	form.MinLength("newPasswordConfirmation", 10)
+
+	if !form.Valid() || form.Get("newPassword") != form.Get("newPasswordConfirmation") {
+		if form.Get("newPassword") != form.Get("newPasswordConfirmation") {
+			form.Errors.Add("newPasswordConfirmation", "Passwords do not match")
+		}
+
+		app.render(w, r, "password.page.tmpl", &templateData{Form: form})
+		return
+	}
+
+}
