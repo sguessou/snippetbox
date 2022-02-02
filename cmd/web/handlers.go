@@ -191,11 +191,11 @@ func (app *application) changePassword(w http.ResponseWriter, r *http.Request) {
 	form.MinLength("newPassword", 10)
 	form.MinLength("newPasswordConfirmation", 10)
 
-	if !form.Valid() || form.Get("newPassword") != form.Get("newPasswordConfirmation") {
-		if form.Get("newPassword") != form.Get("newPasswordConfirmation") {
-			form.Errors.Add("newPasswordConfirmation", "Passwords do not match")
-		}
+	if form.Get("newPassword") != form.Get("newPasswordConfirmation") {
+		form.Errors.Add("newPasswordConfirmation", "Passwords do not match")
+	}
 
+	if !form.Valid() {
 		app.render(w, r, "password.page.tmpl", &templateData{Form: form})
 		return
 	}
