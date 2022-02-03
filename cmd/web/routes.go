@@ -27,7 +27,7 @@ func (app *application) routes() http.Handler {
 
 	mux.Get("/about", dynamicMiddleware.ThenFunc(app.about))
 
-	mux.Get("/user/profile", dynamicMiddleware.ThenFunc(app.userProfile))
+	mux.Get("/user/profile", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.userProfile))
 	mux.Get("/ping", http.HandlerFunc(ping))
 
 	mux.Get("/user/change-password", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.changePasswordForm))
